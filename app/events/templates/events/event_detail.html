@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load event_tags %}
+
+{% block title %}
+{{object}}
+{%endblock%}
+
+
+{% block head %}
+<p>
+    <a href="{% url 'events:event_list' %}">zurück zur Übersicht aller Events</a><br>
+</p>
+
+<h1 class="display-6 fw-bold lh-1">{{object}}</h1>
+<h3 class="display-6 lh-3">{{object.sub_title}}</h3>
+
+<p>
+am <b>{{object.date}} Uhr</b>, eingestellt von  {{object.author}}
+in <a href="{% url 'events:category_detail' object.category.pk %}">
+{{object.category}}</a>
+</p>
+
+<p>
+<a href="{% url 'events:event_cancel' object.id %}">Event canceln</a>
+</p>
+
+{% if user.is_authenticated and user == object.author or user|has_group:"Moderatoren" %}
+<span style="font-size:12px;">
+<a href="{% url 'events:event_update' object.id %}">editieren</a> | 
+<a href="{% url 'events:event_delete' object.id %}">löschen</a>
+</span>
+{% endif %}
+
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+<div class="col-lg-8 col-sm-12">
+
+    <h3>Beschreibung</h3>
+    <p>{{object.description}}</p>
+
+    <h3>zusätzliche Infos</h3>
+    <ul>
+      <li>eingestellt am: {{object.created_at}}</li>
+      <li>eingestellt von: {{object.author}}</li>
+      <li><b>findet statt am (deutsche Zeit): {{object.date}}</b></li>
+      <li>Min Gruppengröße: {{object.get_min_group_display}}</li>
+    </ul>
+
+    
+</div>
+</div>
+
+<div class="container">
+<div class="col-lg-8 col-sm-12">
+
+    <h3>Ähnliche Events</h3>
+    
+    <ul>
+    {% for related in object.related_events %}
+      <li>{{related}}</li>
+    {% endfor %}
+    </ul>
+
+    
+</div>
+</div>
+
+
+{%endblock%}

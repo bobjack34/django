@@ -1,0 +1,4 @@
+DEBUG=True
+SECRET_KEY=django-insecure-(=&3bpjy6(-fvs&&z@a)2hg+bgx&ll4!!4sbz$_bkv=4+)!^s(
+ALLOWED_HOSTS=example.com,127.0.0.1,localhost
+LOG_LEVEL=DEBUG
